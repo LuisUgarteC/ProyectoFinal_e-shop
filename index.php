@@ -1,3 +1,21 @@
+<?php
+
+  require 'config/database.php';
+  $db = new Database();
+  $con = $db->conectar();
+
+  $sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo=1");
+  $sql->execute();
+  $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+/*
+include("config/database.php");
+$conn = conectar();
+$sql = "SELECT * FROM productos";
+$query = mysqli_query($conn, $sql);
+*/
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,20 +44,11 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">Shop</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#">Blog</a>
-        </li>
-
-        <li class="nav-item">
           <a class="nav-link" href="#">Contacto</a>
         </li>
 
         <li class="nav-item">
-          <i class="fas fa-shopping-cart"></i>
-          <i class="fas fa-user"></i>
+          <a style="color: green; padding: 0 20px" class="fas fa-shopping-cart" href="carrito.php"></a>
         </li>
       </ul>
       <form class="d-flex">
@@ -50,17 +59,17 @@
   </div>
 </nav>
 
-<!-- Home -->
+<!-- Inicio -->
 <section id="inicio">
   <div>
     <h5>Prepárate para el invierno</h5>
     <h1>Los mejores precios por tiempo limitado</h1>
     <p>Las ofertas e-shop incluyen una gran cantidad de productos a precios increibles</p>
-    <button>Comprar ahora</button>
+    <button style="background: black; color: white">Comprar ahora</button>
   </div>
 </section>
 
-<!--Brand-->
+<!-- Marcas -->
 <br>
  <section id="marca" class="container">
   <div class=" row">
@@ -71,7 +80,60 @@
   </div>
  </section>
 
-
+ <!-- Productos -->
+<br>
+<main>
+  <div class="container">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-md-4 row-cols-md-5 g-3">
+    <div class="col">
+      <div class="card shadow-sm">
+        <img src="./img/productos/1/amongos.jpg">
+        <div class="card-body">
+          <h5 class="card-title">Peluche Among Us</h5>
+          <p class="card-text">$666</p> 
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <a href="" class="btn btn-warning">Detalles</a>
+            </div>
+            <a href="" class="btn btn-success">Agregar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm">
+        <img src="./img/productos/2/loro.jpg">
+        <div class="card-body">
+          <h5 class="card-title">Imagen Loro</h5>
+          <p class="card-text">$0.68</p> 
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <a href="" class="btn btn-warning">Detalles</a>
+            </div>
+            <a href="" class="btn btn-success">Agregar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm">
+        <img src="./img/productos/1/amongos.jpg">
+        <div class="card-body">
+          <h5 class="card-title">Peluche Among Us</h5>
+          <p class="card-text">$666</p> 
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <a href="" class="btn btn-warning">Detalles</a>
+            </div>
+            <a href="" class="btn btn-success">Agregar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  </div>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
