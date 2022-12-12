@@ -51,58 +51,11 @@
   </div>
 </nav>
 
-<!-- Inicio -->
-<section id="inicio">
-  <div>
-    <h5>Prepárate para el invierno</h5>
-    <h1>Los mejores precios por tiempo limitado</h1>
-    <p>Las ofertas e-shop incluyen una gran cantidad de productos a precios increibles</p>
-    <button style="background: black; color: white">Comprar ahora</button>
-  </div>
-</section>
-
-<!-- Marcas -->
-<br>
- <section id="marca" class="container">
-  <div class=" row">
-    <img class=" img-fluid col-lg-3 col-md-6 col-sm-12" src="./img/xboxps.jpg"/>
-    <img class=" img-fluid col-lg-3 col-md-6 col-sm-12" src="./img/lego.jpg"/>
-    <img class=" img-fluid col-lg-3 col-md-6 col-sm-12" src="./img/supreme.jpg"/>
-    <img class=" img-fluid col-lg-3 col-md-6 col-sm-12" src="./img/adidas.jpg"/>
-  </div>
- </section>
-
  <!-- Productos -->
 <br>
 <main>
   <div class="container">
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-md-4 row-cols-md-5 g-3">
-      <?php foreach($resultado as $row) { ?>
-      <div class="col">
-      <div class="card shadow-sm">
-          <?php
-            $id = $row['id'];
-            $imagen = "img/productos/" . $id . "/principal.jpg";
-
-            if(!file_exists($imagen)){
-              $imagen = "img/no-photo.jpg";
-            }
-          ?>
-        <img src="<?php echo $imagen; ?>">
-        <div class="card-body">
-          <h5 class="card-title"><?php echo $row['nombre']; ?></h5>
-          <p class="card-text">$ <?php echo number_format($row['precio'], 2, '.', ','); ?></p> 
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <a href="#" class="btn btn-warning">Detalles</a>
-            </div>
-            <a href="#" class="btn btn-success">Agregar</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <?php } ?>
-  </div>
+  
   </div>
 </main>
 
