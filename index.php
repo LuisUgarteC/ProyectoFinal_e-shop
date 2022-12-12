@@ -1,5 +1,4 @@
 <?php
-
   require 'config/database.php';
   $db = new Database();
   $con = $db->conectar();
@@ -7,13 +6,6 @@
   $sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo=1");
   $sql->execute();
   $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
-
-/*
-include("config/database.php");
-$conn = conectar();
-$sql = "SELECT * FROM productos";
-$query = mysqli_query($conn, $sql);
-*/
 ?>
 
 <!DOCTYPE html>
@@ -86,11 +78,20 @@ $query = mysqli_query($conn, $sql);
   <div class="container">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-md-4 row-cols-md-5 g-3">
     <div class="col">
+      <?php foreach($resultado as $row) { ?>
       <div class="card shadow-sm">
-        <img src="./img/productos/1/amongos.jpg">
+          <?php
+            $id = $row['id'];
+            $imagen = "img/productos/". $id . "/amongos.jpg";
+
+            if(!file_exists($imagen)){
+              $imagen = "img/no-photo.jpg";
+            }
+          ?>
+        <img src="<?php echo $imagen; ?>">
         <div class="card-body">
-          <h5 class="card-title">Peluche Among Us</h5>
-          <p class="card-text">$666</p> 
+          <h5 class="card-title"><?php echo $row['nombre']; ?></h5>
+          <p class="card-text"><?php echo $row['precio']; ?></p> 
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="" class="btn btn-warning">Detalles</a>
@@ -100,6 +101,8 @@ $query = mysqli_query($conn, $sql);
         </div>
       </div>
     </div>
+    <?php } ?>
+    <!--
     <div class="col">
       <div class="card shadow-sm">
         <img src="./img/productos/2/loro.jpg">
@@ -133,6 +136,7 @@ $query = mysqli_query($conn, $sql);
     
   </div>
   </div>
+      -->
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
