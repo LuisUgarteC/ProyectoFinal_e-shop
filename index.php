@@ -41,7 +41,7 @@
         </li>
 
         <li class="nav-item">
-          <a style="color: green; padding: 0 20px" class="fas fa-shopping-cart" href="carrito.php"></a>
+        <a style="color: green; padding: 0 20px" class="fas fa-shopping-cart" href="carrito.php"><span id="num_cart" class="badge bg-danger"> <?php echo $num_cart; ?> </span></a>
         </li>
       </ul>
       <form class="d-flex">
