@@ -60,8 +60,7 @@
   <div>
     <h5>Prepárate para el invierno</h5>
     <h1>Los mejores precios por tiempo limitado</h1>
-    <p>Las ofertas e-shop incluyen una gran cantidad de productos a precios increibles</p>
-    <button style="background: black; color: white">Comprar ahora</button>
+    <p>Las ofertas e-shop incluyen una gran cantidad de productos a precios increibles.</p>
   </div>
 </section>
 
