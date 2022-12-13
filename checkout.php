@@ -81,7 +81,7 @@
             </thead>
             <tbody>
                 <?php if($lista_carrito == null){
-                    echo '<tr><td colspan="5" class="text-center"<b>Lista vacía</b>></td></tr>';
+                    echo '<tr><td colspan="5" class="text-center"<b>Lista vacía</b></td></tr>';
                 } else {
 
                     $total = 0;
@@ -105,7 +105,7 @@
                     <td>
                         <div id="subtotal_<?php echo $_id; ?>" name="subtotal[]"><?php echo MONEDA . number_format($subtotal,2, '.', ',');  ?></div>
                     </td>
-                    <td><a href="#" id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $_id; ?>" data-ds-toogle="modal" data-bs-target="eliminaModal">Eliminar</a></td>
+                    <td><a href="#" id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $_id; ?>" data-bs-toggle="modal" data-bs-target="#eliminaModal">Eliminar</a></td>
                 </tr>
                 <?php } ?>
 
@@ -129,9 +129,37 @@
   </div>
 </main>
 
+<!-- Modal -->
+<div class="modal fade" id="eliminaModal" tabindex="-1" aria-labelledby="eliminaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminaModalLabel">Alerta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Desea eliminar el producto de la lista?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button id="btn-elimina" type="button" class="btn btn-danger" onclick="eliminar()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 <script>
+
+let eliminaModal = document.getElementById('eliminaModal')
+eliminaModal.addEventListener("show.bs.modal", function(event) {
+    let button = event.relatedTarget
+    let id = button.getAttribute('data-bs-id')
+    let buttonElimina = eliminaModal.querySelector('.modal-footer #btn-elimina')
+    buttonElimina.value = id 
+})
+
   function actualizaCantidad(cantidad, id){
     let url = 'clases/actualizar_carrito.php'
     let formData = new FormData()
@@ -161,6 +189,28 @@
             minimumFractionDigits: 2            
         }).format(total)
         document.getElementById('total').innerHTML = '<?php echo MONEDA; ?>' + total
+      }
+    })
+  }
+
+  function eliminar(){
+
+    let buttonElimina = document.getElementById('btn-elimina')
+    let id = buttonElimina.value
+
+    let url = 'clases/actualizar_carrito.php'
+    let formData = new FormData()
+    formData.append('action', 'eliminar')
+    formData.append('id', id)
+
+    fetch(url, {
+      method: 'POST',
+      body: formData,
+      mode: 'cors'
+    }).then(response => response.json())
+    .then(data => {
+      if(data.ok){
+        location.reload()
       }
     })
   }
