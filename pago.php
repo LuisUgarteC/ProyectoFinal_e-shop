@@ -46,7 +46,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link" href="index.php">Inicio</a>
+          <a class="nav-link" href="#">Inicio</a>
         </li>
 
         <li class="nav-item">
@@ -124,7 +124,7 @@
 
         <div class="row">
             <div class="col-md-5 offset-md-7 d-grid gap-2">
-                <a href="pago.php" class="btn btn-primary btn-lg">Realizar pago</a>
+                <button class="btn btn-primary btn-lg">Realizar pago</button>
             </div>
         </div>
   </div>
