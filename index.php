@@ -133,5 +133,7 @@
   }
 </script>
 
+<footer>Creado por lobo solitario - Luis Ugarte</footer>
+
 </body>
 </html>
