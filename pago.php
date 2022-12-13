@@ -148,8 +148,20 @@
             });
         },
         onApprove: function(data, actions){
+            let URL = 'clases/captura.php'
             actions.order.capture().then(function (detalles){
-                window.location.href="completado.html"
+ 
+                console.log(detalles)
+
+                return fetch(url, {
+                    method: 'post',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        detalles: detalles
+                    })
+                })
             });
         },
         onCancel : function(data){
