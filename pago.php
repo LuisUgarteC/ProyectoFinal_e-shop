@@ -150,6 +150,8 @@
         onApprove: function(data, actions){
             let URL = 'clases/captura.php'
             actions.order.capture().then(function (detalles){
+
+                window.location.href="completado.html"
  
                 console.log(detalles)
 
