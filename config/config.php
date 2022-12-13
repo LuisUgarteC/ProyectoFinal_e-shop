@@ -1,5 +1,7 @@
 <?php
 
+define("CLIENT_ID", "AR6KiHAiLXm1JEzbMtaIl6PJHOgFCTw9HIWWbSP-gXOGa-6zvfYTPRYOLTAS3Oy1mXK1nkRpPx1BdjuR");
+define("CURRENCY", "MXN");
 define("KEY_TOKEN", "ABC");
 define("MONEDA", "$");
 

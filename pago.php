@@ -15,6 +15,9 @@
         $sql->execute([$clave]);
         $lista_carrito[] = $sql->fetch(PDO::FETCH_ASSOC);
     }
+} else {
+    header("Location: index.php");
+    exit;
 }
 
   //session_destroy();
@@ -46,7 +49,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link" href="#">Inicio</a>
+          <a class="nav-link" href="index.php">Inicio</a>
         </li>
 
         <li class="nav-item">
@@ -68,14 +71,18 @@
  <!-- Productos -->
 <br>
 <main>
-  <div class="container">
-        <div class="table-response">
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4>Detalles de Pago</h4>
+            <div id="paypal-button-container"></div>
+        </div>
+        <div class="col-6">
+            <div class="table-response">
             <table class="table">
             <thead>
                 <tr>
                     <th>Producto</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
                     <th>Subtotal</th>
                     <th></th>
                 </tr>
@@ -99,21 +106,15 @@
             
                 <tr>
                     <td><?php echo $nombre; ?></td>
-                    <td><?php echo MONEDA . number_format($precio_desc,2, '.', ','); ?></td>
-                    <td><input 
-                        type="number" min="1" max="10" value="<?php echo $cantidad?>" size="5" id="cantidad_<?php echo $_id; ?>" onchange="actualizaCantidad(this.value, <?php echo $_id; ?>)">
-                    </td>
                     <td>
                         <div id="subtotal_<?php echo $_id; ?>" name="subtotal[]"><?php echo MONEDA . number_format($subtotal,2, '.', ',');  ?></div>
                     </td>
-                    <td><a href="#" id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $_id; ?>" data-bs-toggle="modal" data-bs-target="#eliminaModal">Eliminar</a></td>
                 </tr>
                 <?php } ?>
 
                     <tr>
-                        <td colspan="3"></td>
                         <td colspan="2">
-                            <p class="h3" id="total"><?php echo MONEDA . number_format($total, 2, '.', ',');?></p>
+                            <p class="h3 text-end" id="total"><?php echo MONEDA . number_format($total, 2, '.', ',');?></p>
                         </td>
                     </tr>
 
@@ -121,100 +122,41 @@
             <?php } ?>
             </table>
         </div>
-
-        <div class="row">
-            <div class="col-md-5 offset-md-7 d-grid gap-2">
-                <button class="btn btn-primary btn-lg">Realizar pago</button>
-            </div>
-        </div>
-  </div>
-</main>
-
-<!-- Modal -->
-<div class="modal fade" id="eliminaModal" tabindex="-1" aria-labelledby="eliminaModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="eliminaModalLabel">Alerta</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ¿Desea eliminar el producto de la lista?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button id="btn-elimina" type="button" class="btn btn-danger" onclick="eliminar()">Eliminar</button>
-      </div>
     </div>
   </div>
 </div>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+<script src="https://www.paypal.com/sdk/js?client-id=<?php echo CLIENT_ID; ?>&currency=<?php echo CURRENCY; ?>"></script>
+
 <script>
-
-let eliminaModal = document.getElementById('eliminaModal')
-eliminaModal.addEventListener("show.bs.modal", function(event) {
-    let button = event.relatedTarget
-    let id = button.getAttribute('data-bs-id')
-    let buttonElimina = eliminaModal.querySelector('.modal-footer #btn-elimina')
-    buttonElimina.value = id 
-})
-
-  function actualizaCantidad(cantidad, id){
-    let url = 'clases/actualizar_carrito.php'
-    let formData = new FormData()
-    formData.append('action', 'agregar')
-    formData.append('id', id)
-    formData.append('cantidad', cantidad)
-
-    fetch(url, {
-      method: 'POST',
-      body: formData,
-      mode: 'cors'
-    }).then(response => response.json())
-    .then(data => {
-      if(data.ok){
-
-        let divsubtotal = document.getElementById('subtotal_' + id)
-        divsubtotal.innerHTML = data.sub
-
-        let total = 0.00
-        let list = document.getElementsByName('subtotal[]')
-
-        for(let i = 0; i < list.length; i++){
-            total += parseFloat(list[i].innerHTML.replace(/[$,]/g, ''))
+    paypal.Buttons({
+        style:{
+            color: 'blue',
+            shape: 'pill',
+            label: 'pay'
+        },
+        createOrder: function(data, actions){
+            return actions.order.create({
+                purchase_units: [{
+                    amount : {
+                        value: <?php echo $total; ?>
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions){
+            actions.order.capture().then(function (detalles){
+                window.location.href="completado.html"
+            });
+        },
+        onCancel : function(data){
+            alert("Pago cancelado");
+            console.log(data);
         }
-
-        total = new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 2            
-        }).format(total)
-        document.getElementById('total').innerHTML = '<?php echo MONEDA; ?>' + total
-      }
-    })
-  }
-
-  function eliminar(){
-
-    let buttonElimina = document.getElementById('btn-elimina')
-    let id = buttonElimina.value
-
-    let url = 'clases/actualizar_carrito.php'
-    let formData = new FormData()
-    formData.append('action', 'eliminar')
-    formData.append('id', id)
-
-    fetch(url, {
-      method: 'POST',
-      body: formData,
-      mode: 'cors'
-    }).then(response => response.json())
-    .then(data => {
-      if(data.ok){
-        location.reload()
-      }
-    })
-  }
+    }).render('#paypal-button-container');
 </script>
 
 </body>
