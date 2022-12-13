@@ -89,7 +89,7 @@
               $imagen = "img/no-photo.jpg";
             }
           ?>
-        <img src="<?php echo $imagen; ?>" height="300" width="500" class="d-block w-100">
+        <img src="<?php echo $imagen; ?>" height="280" width="500" class="d-block w-100">
         <div class="card-body" >
           <h5 class="card-title"><?php echo $row['nombre']; ?></h5>
           <p class="card-text">$ <?php echo number_format($row['precio'], 2, '.', ','); ?></p> 

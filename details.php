@@ -101,7 +101,7 @@
   </div>
 </nav>
 
- <!-- Productos -->
+ <!-- Carrusel -->
 <br>
 <main>
   <div class="container">
@@ -132,15 +132,28 @@
 
       </div>
       <div class="col-md-6 order-md-2">
-        <h2><? echo $nombre; ?></h2>
+        <h2><?php echo $nombre; ?></h2>
+
+        <?php if($descuento > 0) { ?>
+          <p><del><?php echo MONEDA . number_format($precio, 2, '.', ','); ?></del></p>
+          <h2>
+            <?php echo MONEDA . number_format($precio_desc, 2, '.', ','); ?>
+            <small class="text-success"><?php echo $descuento; ?>% de descuento</small>
+          </h2>
+
+          <?php } else { ?>
+
         <h2><?php echo MONEDA . number_format($precio, 2, '.', ','); ?></h2>
+
+        <?php } ?>
+
         <p class="lead">
           <?php echo $descripcion; ?>
         </p>
 
         <div class="d-grid gap-3 col-10 mx-auto">
           <button class="btn btn-primary" type="button"> Comprar ahora </button>
-          <button class="btn btn-outlined-primary" type="button"> Agregar al carrito </button>
+          <button class="btn btn-outline-primary" type="button"> Agregar al carrito </button>
         </div>
 
       </div>
